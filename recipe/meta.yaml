@@ -15,12 +15,14 @@ build:
     - python setup.py install --single-version-externally-managed --record record.txt  # [win]
 
 requirements:
-  build:
+  host:
     - python
     - setuptools
     - cython
     - libxml2 2.9.*
     - libxslt
+  build:
+    - {{ compiler('c') }}
   run:
     - python
     - libxml2 2.9.*
