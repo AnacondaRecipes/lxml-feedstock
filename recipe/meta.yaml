@@ -15,17 +15,16 @@ build:
     - python -m pip install --no-deps --ignore-installed .  # [win]
 
 requirements:
+  build:
+    - {{ compiler('c') }}
   host:
+    - libxml2
     - python
     - pip
     - cython
-    - libxml2 2.9.*
     - libxslt
-  build:
-    - {{ compiler('c') }}
   run:
     - python
-    - libxml2 2.9.*
     - libxslt
 
 test:
