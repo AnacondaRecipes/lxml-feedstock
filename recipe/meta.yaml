@@ -9,7 +9,7 @@ source:
   sha256: 940caef1ec7c78e0c34b0f6b94fe42d0f2022915ffc78643d28538a5cfd0f40e
 
 build:
-  number: 0
+  number: 1
   script:
     - python setup.py install --single-version-externally-managed --record record.txt --with-xslt-config=$PREFIX/bin/xslt-config  # [not win]
     - python setup.py install --single-version-externally-managed --record record.txt  # [win]
@@ -25,7 +25,6 @@ requirements:
     - libxslt
   run:
     - python
-    - libxslt
 
 test:
   imports:
