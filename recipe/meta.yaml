@@ -9,7 +9,7 @@ source:
   sha256: 36720698c29e7a9626a0dc802ef8885f8f0239bfd1689628ecd459a061f2807f
 
 build:
-  number: 0
+  number: 1000
   script:
     - python -m pip install --no-deps --ignore-installed . --global-option="--with-xslt-config=$PREFIX/bin/xslt-config"  # [not win]
     - python -m pip install --no-deps --ignore-installed .  # [win]
