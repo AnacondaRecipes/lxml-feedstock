@@ -1,4 +1,4 @@
-{% set version = "4.3.0" %}
+{% set version = "4.3.1" %}
 
 package:
   name: lxml
@@ -6,10 +6,10 @@ package:
 
 source:
   url: https://pypi.io/packages/source/l/lxml/lxml-{{ version }}.tar.gz
-  sha256: d1e111b3ab98613115a208c1017f266478b0ab224a67bc8eac670fa0bad7d488
+  sha256: da5e7e941d6e71c9c9a717c93725cda0708c2474f532e3680ac5e39ec57d224d
 
 build:
-  number: 1000
+  number: 0
   script:
     - python -m pip install --no-deps --ignore-installed . --global-option="--with-xslt-config=$PREFIX/bin/xslt-config"  # [not win]
     - python -m pip install --no-deps --ignore-installed .  # [win]
