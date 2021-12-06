@@ -14,14 +14,12 @@ build:
 
 requirements:
   build:
-    - python
-    - cython
     - {{ compiler('c') }}
   host:
     - libxml2
     - python
     - pip
-    - cython
+    - cython >=0.29.7
     - libxslt
   run:
     - python
@@ -32,6 +30,9 @@ test:
     - lxml
     - lxml.etree
     - lxml.objectify
+    - lxml.includes
+    - lxml.html
+    - lxml.isoschematron
   requires:
     - pip
   commands:
