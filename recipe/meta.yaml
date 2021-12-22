@@ -16,11 +16,14 @@ requirements:
   build:
     - {{ compiler('c') }}
   host:
-    - libxml2 >=2.9.2
     - python
-    - pip
     - cython >=0.29.7
+    # see https://github.com/lxml/lxml/blob/master/INSTALL.txt
+    - libxml2 >=2.9.2
     - libxslt
+    - pip
+    - setuptools
+    - wheel
   run:
     - python
     - libxslt >=1.1.28
