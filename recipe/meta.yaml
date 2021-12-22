@@ -16,14 +16,14 @@ requirements:
   build:
     - {{ compiler('c') }}
   host:
-    - libxml2
+    - libxml2 >=2.9.2
     - python
     - pip
     - cython >=0.29.7
     - libxslt
   run:
     - python
-    - libxslt
+    - libxslt >=1.1.28
 
 test:
   imports:
