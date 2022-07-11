@@ -1,4 +1,4 @@
-{% set version = "4.8.0" %}
+{% set version = "4.9.1" %}
 
 package:
   name: lxml
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/l/lxml/lxml-{{ version }}.tar.gz
-  sha256: f63f62fc60e6228a4ca9abae28228f35e1bd3ce675013d1dfb828688d50c6e23
+  sha256: fe749b052bb7233fe5d072fcb549221a8cb1a16725c47c37e42b0b9cb3ff2c3f
 
 build:
   number: 0
@@ -18,14 +18,16 @@ requirements:
   host:
     - python
     - cython >=0.29.7
-    # see https://github.com/lxml/lxml/blob/master/INSTALL.txt
-    - libxml2 >=2.9.2
+    # exclusions due to https://bugs.launchpad.net/lxml/+bug/1928795
+    - libxml2 !=2.9.11, !=2.9.12
     - libxslt
     - pip
     - setuptools
     - wheel
   run:
     - python
+    - libxml2 >=2.9.2, !=2.9.11, !=2.9.12
+    # Recommend libxslt 1.1.28 or later.
     - libxslt >=1.1.28
 
 test:
@@ -44,6 +46,7 @@ test:
 about:
   home: https://lxml.de/
   license: BSD-3-Clause and GPL-2.0-only and ZPL-2.0 and LicenseRef-ElementTree
+  license_family: Other
   license_file: LICENSES.txt
   summary: Pythonic binding for the C libraries libxml2 and libxslt.
   description: |
