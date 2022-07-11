@@ -11,9 +11,6 @@ source:
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv
-  ignore_run_exports:  # [win]
-    - libxml2          # [win]
-    - libxslt          # [win]
 
 requirements:
   build:
