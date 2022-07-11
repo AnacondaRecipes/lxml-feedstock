@@ -11,6 +11,9 @@ source:
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv
+  ignore_run_exports:  # [win]
+    - libxml2          # [win]
+    - libxslt          # [win]
 
 requirements:
   build:
@@ -26,6 +29,9 @@ requirements:
     - wheel
   run:
     - python
+    - libxml2 >=2.9.2, !=2.9.11, !=2.9.12
+    # Recommend libxslt 1.1.28 or later.
+    - libxslt >=1.1.28
 
 test:
   imports:
