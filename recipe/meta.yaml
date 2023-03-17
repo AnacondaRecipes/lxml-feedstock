@@ -17,8 +17,8 @@ requirements:
     - {{ compiler('c') }}
   host:
     - python
-    - cython 0.29.32
-    - libxml2 2.10.3
+    - cython 0.29.33
+    - libxml2 {{ libxml2 }}
     - libxslt 1.1.35
     - pip
     - setuptools
