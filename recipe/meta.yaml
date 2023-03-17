@@ -10,25 +10,24 @@ source:
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps
 
 requirements:
   build:
     - {{ compiler('c') }}
   host:
     - python
-    - cython >=0.29.7
-    # exclusions due to https://bugs.launchpad.net/lxml/+bug/1928795
-    - libxml2 !=2.9.11, !=2.9.12
-    - libxslt
+    - cython 0.29.32
+    - libxml2 2.10.3
+    - libxslt 1.1.35
     - pip
     - setuptools
     - wheel
   run:
     - python
-    - libxml2 >=2.9.2, !=2.9.11, !=2.9.12
+    - libxml2 >=2.9.2,!=2.9.11,!=2.9.12,<2.11.0a0
     # Recommend libxslt 1.1.28 or later.
-    - libxslt >=1.1.28
+    - libxslt >=1.1.28,<2.0.0a0
 
 test:
   imports:
@@ -56,7 +55,6 @@ about:
     mostly compatible but superior to the well-known ElementTree API.
   doc_url: https://lxml.de/index.html#documentation
   dev_url: https://github.com/lxml/lxml
-  doc_source_url: https://github.com/lxml/lxml/tree/master/doc
 
 extra:
   recipe-maintainers:
