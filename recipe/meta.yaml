@@ -1,4 +1,4 @@
-{% set version = "4.9.2" %}
+{% set version = "4.9.3" %}
 
 package:
   name: lxml
@@ -6,18 +6,18 @@ package:
 
 source:
   url: https://pypi.io/packages/source/l/lxml/lxml-{{ version }}.tar.gz
-  sha256: 2455cfaeb7ac70338b3257f41e21f0724f4b5b0c0e7702da67ee6c3640835b67
+  sha256: 48628bd53a426c9eb9bc066a923acaa0878d1e86129fd5359aee99285f4eed9c
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv --no-deps
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   build:
     - {{ compiler('c') }}
   host:
     - python
-    - cython 0.29.33
+    - cython 0.29
     - libxml2 2.10
     - libxslt 1.1.37
     - pip
@@ -25,9 +25,8 @@ requirements:
     - wheel
   run:
     - python
-    - libxml2 >=2.10.3,<2.11.0a0
-    # Recommend libxslt 1.1.28 or later.
-    - libxslt >=1.1.28,<2.0.0a0
+    - libxml2 # has run exports
+    - libxslt # has run exports
 
 test:
   imports:
