@@ -17,9 +17,9 @@ requirements:
     - {{ compiler('c') }}
   host:
     - python
-    - cython 3.0.10
-    - libxml2
-    - libxslt
+    - cython >=3.0.10
+    - libxml2 {{ libxml2 }} 
+    - libxslt {{ libxslt }}
     - pip
     - setuptools
     - wheel
