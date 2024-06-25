@@ -19,7 +19,7 @@ requirements:
     - python
     - cython >=3.0.10
     - libxml2 {{ libxml2 }}
-    - libxslt {{ libxslt }}
+    - libxslt 1.1.41
     - pip
     - setuptools
     - wheel
