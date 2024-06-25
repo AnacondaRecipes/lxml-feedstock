@@ -9,7 +9,7 @@ source:
   sha256: 3f7765e69bbce0906a7c74d5fe46d2c7a7596147318dbc08e4a2431f3060e306
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
@@ -18,7 +18,7 @@ requirements:
   host:
     - python
     - cython >=3.0.10
-    - libxml2 {{ libxml2 }} 
+    - libxml2 {{ libxml2 }}
     - libxslt {{ libxslt }}
     - pip
     - setuptools
