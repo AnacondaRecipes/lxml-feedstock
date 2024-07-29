@@ -28,6 +28,8 @@ requirements:
     - pip
     - setuptools
     - wheel
+    - libiconv  # [win]
+    - zlib      # [win]
   run:
     - python
     - libxml2 # has run exports
