@@ -10,10 +10,7 @@ source:
 
 build:
   number: 1
-  script_env:  # [win]
-    - PKG_CONFIG_PATH=%LIBRARY_LIB%\pkgconfig;%LIBRARY_PREFIX%\share\pkgconfig  # [win]
-  script:
-    - {{ PYTHON }} setup.py install --with-cython  # [win]
+  script:  # [unix]
     - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation  # [unix]
 
 requirements:
