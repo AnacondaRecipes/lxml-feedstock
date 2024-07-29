@@ -10,13 +10,12 @@ source:
 
 build:
   number: 1
-  script:  # [unix]
-    - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation  # [unix]
 
 requirements:
   build:
     - {{ compiler('c') }}
-    - pkg-config
+    # pkg-config is needed to locate %PREFIX%\Library\include\libxml2 on Windows.
+    - pkg-config  # [win]
   host:
     - python
     - cython >=3.0.10
