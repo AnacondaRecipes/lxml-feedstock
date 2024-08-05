@@ -9,20 +9,23 @@ source:
   sha256: 3f7765e69bbce0906a7c74d5fe46d2c7a7596147318dbc08e4a2431f3060e306
 
 build:
-  number: 0
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 1
 
 requirements:
   build:
     - {{ compiler('c') }}
+    # pkg-config is needed to locate %PREFIX%\Library\include\libxml2 on Windows.
+    - pkg-config  # [win]
   host:
     - python
     - cython >=3.0.10
-    - libxml2 {{ libxml2 }} 
+    - libxml2 {{ libxml2 }}
     - libxslt {{ libxslt }}
     - pip
     - setuptools
     - wheel
+    - libiconv  # [win]
+    - zlib      # [win]
   run:
     - python
     - libxml2 # has run exports
