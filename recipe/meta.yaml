@@ -19,7 +19,7 @@ requirements:
   host:
     - python
     - cython >=3.0.11
-    - libxml2 2.13.5
+    - libxml2 {{ libxml2 }}
     - libxslt {{ libxslt }}
     - pip
     - setuptools
