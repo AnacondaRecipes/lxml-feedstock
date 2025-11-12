@@ -1,37 +1,65 @@
-{% set version = "5.3.0" %}
+{% set name = "lxml" %}
+{% set version = "6.0.2" %}
 
 package:
-  name: lxml
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/l/lxml/lxml-{{ version }}.tar.gz
-  sha256: 4e109ca30d1edec1ac60cdbe341905dc3b8f55b16855e03a54aaf59e51ec8c6f
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: cd79f3367bd74b317dda655dc8fcfa304d9eb6e4fb06b7168c5cf27f96e0cd62
 
 build:
-  number: 1
+  number: 0
+  skip: true  # [py<38]
 
 requirements:
   build:
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
     # pkg-config is needed to locate %PREFIX%\Library\include\libxml2 on Windows.
     - pkg-config  # [win]
   host:
+    - pip
     - python
-    - cython >=3.0.11
+    - wheel
+    - setuptools
+    - cython >=3.1.4
     - libxml2 {{ libxml2 }}
     - libxslt {{ libxslt }}
-    - pip
-    - setuptools
-    - wheel
-    - libiconv  # [win]
-    - zlib      # [win]
+    - libiconv {{ libiconv }}  # [win]
+    - zlib {{ zlib }}  # [win]
   run:
     - python
     - libxml2 # has run exports
     - libxslt # has run exports
+  run_constrained:
+    - cssselect >=0.7
 
+# >   tostring = self.etree.tostring
+# E   AttributeError: 'NoneType' object has no attribute 'tostring'
+{% set deselect_tests = " --deselect=src/lxml/tests/test_io.py::_IOTestCaseBase" %}
+# >   Element = self.etree.Element
+# E   AttributeError: 'NoneType' object has no attribute 'Element'
+{% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_elementtree.py::_ETreeTestCaseBase" %}
+{% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_etree.py" %}
+{% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_elementtree.py::_ElementSlicingTest" %}
+# >   self.assertRaises(self.etree.ParseError,self.etree.parse,BytesIO(xml_latin1))
+# E   AttributeError: 'NoneType' object has no attribute 'ParseError'
+{% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_incremental_xmlfile.py::_XmlFileTestCaseBase" %}
+#     for option in self.etree.parse(full_path(filename) + ".xml").getroot()
+# E   AttributeError: 'NoneType' object has no attribute 'parse'
+{% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_elementtree.py::_C14NTest" %}
+{% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_elementtree.py::_XMLPullParserTest" %}
+# path problem on windows
+# if '/' in name or '\\' in name:
+{% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_external_document.py::ExternalDocumentTestCase::test_external_document_adoption" %}  # [win]
 test:
+  source_files:
+    # pyargs does not work, tests folder removed from the site-packages directory.
+    - src/lxml/tests
+    - doc
+    - test.py
   imports:
     - lxml
     - lxml.etree
@@ -39,13 +67,15 @@ test:
     - lxml.includes
     - lxml.html
     - lxml.isoschematron
-  requires:
-    - pip
   commands:
     - pip check
+    - pytest -v src/lxml/tests --tb=short {{ deselect_tests }}
+  requires:
+    - pip
+    - pytest
 
 about:
-  home: https://lxml.de/
+  home: https://lxml.de
   license: BSD-3-Clause and GPL-2.0-only and ZPL-2.0 and LicenseRef-ElementTree
   license_family: Other
   license_file: LICENSES.txt
