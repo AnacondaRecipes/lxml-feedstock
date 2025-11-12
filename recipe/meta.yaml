@@ -51,6 +51,9 @@ requirements:
 # E   AttributeError: 'NoneType' object has no attribute 'parse'
 {% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_elementtree.py::_C14NTest" %}
 {% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_elementtree.py::_XMLPullParserTest" %}
+# path problem on windows
+# if '/' in name or '\\' in name:
+{% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_external_document.py::ExternalDocumentTestCase::test_external_document_adoption" %}  # [win]
 test:
   source_files:
     # pyargs does not work, tests folder removed from the site-packages directory.
