@@ -36,7 +36,27 @@ requirements:
   run_constrained:
     - cssselect >=0.7
 
+# >   tostring = self.etree.tostring
+# E   AttributeError: 'NoneType' object has no attribute 'tostring'
+{% set deselect_tests = " --deselect=src/lxml/tests/test_io.py::_IOTestCaseBase" %}
+# >   Element = self.etree.Element
+# E   AttributeError: 'NoneType' object has no attribute 'Element'
+{% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_elementtree.py::_ETreeTestCaseBase" %}
+{% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_etree.py" %}
+{% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_elementtree.py::_ElementSlicingTest" %}
+# >   self.assertRaises(self.etree.ParseError,self.etree.parse,BytesIO(xml_latin1))
+# E   AttributeError: 'NoneType' object has no attribute 'ParseError'
+{% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_incremental_xmlfile.py::_XmlFileTestCaseBase" %}
+#     for option in self.etree.parse(full_path(filename) + ".xml").getroot()
+# E   AttributeError: 'NoneType' object has no attribute 'parse'
+{% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_elementtree.py::_C14NTest" %}
+{% set deselect_tests = deselect_tests + " --deselect=src/lxml/tests/test_elementtree.py::_XMLPullParserTest" %}
 test:
+  source_files:
+    # pyargs does not work, tests folder removed from the site-packages directory.
+    - src/lxml/tests
+    - doc
+    - test.py
   imports:
     - lxml
     - lxml.etree
@@ -46,8 +66,10 @@ test:
     - lxml.isoschematron
   commands:
     - pip check
+    - pytest -v src/lxml/tests --tb=short {{ deselect_tests }}
   requires:
     - pip
+    - pytest
 
 about:
   home: https://lxml.de
