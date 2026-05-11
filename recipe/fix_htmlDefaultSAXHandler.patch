@@ -1,20 +1,23 @@
 --- a/src/lxml/etree.c
 +++ b/src/lxml/etree.c
-@@ -138895,7 +138895,7 @@
+@@ -138895,7 +138895,9 @@
   *                 sax = <xmlparser.xmlSAXHandler*> tree.xmlMalloc(sizeof(xmlparser.xmlSAXHandler))
   *                 if sax is NULL:
  */
 -    __pyx_t_2 = (((xmlSAXHandlerV1 *)__pyx_v_sax) == (&htmlDefaultSAXHandler));
-+    __pyx_t_2 = (((xmlSAXHandlerV1 *)__pyx_v_sax) == htmlDefaultSAXHandlerPtr());
++    { static xmlSAXHandlerV1 __pyx_html_sax; static int __pyx_html_sax_init = 0;
++      if (!__pyx_html_sax_init) { htmlDefaultSAXHandlerInit(); memcpy(&__pyx_html_sax, &htmlDefaultSAXHandler, sizeof(xmlSAXHandlerV1)); __pyx_html_sax_init = 1; }
++      __pyx_t_2 = (((xmlSAXHandlerV1 *)__pyx_v_sax) == &__pyx_html_sax); }
      if (__pyx_t_2) {
  
        /* "src/lxml/parser.pxi":963
-@@ -138942,7 +138942,7 @@
+@@ -138942,7 +138942,8 @@
   *                                  sizeof(htmlparser.htmlDefaultSAXHandler))
   *                 c_ctxt.sax = sax
  */
 -      (void)(memcpy(__pyx_v_sax, (&htmlDefaultSAXHandler), (sizeof(htmlDefaultSAXHandler))));
-+      (void)(memcpy(__pyx_v_sax, htmlDefaultSAXHandlerPtr(), sizeof(htmlSAXHandlerV1)));
- 
++      { xmlSAXHandlerV1 __pyx_html_sax_tmp; htmlDefaultSAXHandlerInit(); memcpy(&__pyx_html_sax_tmp, &htmlDefaultSAXHandler, sizeof(xmlSAXHandlerV1));
++        (void)(memcpy(__pyx_v_sax, &__pyx_html_sax_tmp, sizeof(xmlSAXHandlerV1))); }
+
        /* "src/lxml/parser.pxi":968
   *                 cstring_h.memcpy(sax, &htmlparser.htmlDefaultSAXHandler,
