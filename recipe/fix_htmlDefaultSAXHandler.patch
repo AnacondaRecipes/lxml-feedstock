@@ -1,0 +1,20 @@
+--- a/src/lxml/etree.c
++++ b/src/lxml/etree.c
+@@ -138895,7 +138895,7 @@
+  *                 sax = <xmlparser.xmlSAXHandler*> tree.xmlMalloc(sizeof(xmlparser.xmlSAXHandler))
+  *                 if sax is NULL:
+ */
+-    __pyx_t_2 = (((xmlSAXHandlerV1 *)__pyx_v_sax) == (&htmlDefaultSAXHandler));
++    __pyx_t_2 = (((xmlSAXHandlerV1 *)__pyx_v_sax) == htmlDefaultSAXHandlerPtr());
+     if (__pyx_t_2) {
+ 
+       /* "src/lxml/parser.pxi":963
+@@ -138942,7 +138942,7 @@
+  *                                  sizeof(htmlparser.htmlDefaultSAXHandler))
+  *                 c_ctxt.sax = sax
+ */
+-      (void)(memcpy(__pyx_v_sax, (&htmlDefaultSAXHandler), (sizeof(htmlDefaultSAXHandler))));
++      (void)(memcpy(__pyx_v_sax, htmlDefaultSAXHandlerPtr(), sizeof(htmlSAXHandlerV1)));
+ 
+       /* "src/lxml/parser.pxi":968
+  *                 cstring_h.memcpy(sax, &htmlparser.htmlDefaultSAXHandler,

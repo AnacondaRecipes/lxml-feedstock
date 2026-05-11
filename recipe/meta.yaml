@@ -8,6 +8,8 @@ package:
 source:
   url: https://pypi.org/packages/source/l/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: bfd57d8008c4965709a919c3e9a98f76c2c7cb319086b3d26858250620023b13
+  patches:
+    - fix_htmlDefaultSAXHandler.patch
 
 build:
   number: 0
