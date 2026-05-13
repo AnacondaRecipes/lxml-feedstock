@@ -1,0 +1,41 @@
+--- lxml-6.1.0/src/lxml/etree.c	2026-05-11 12:14:07
++++ lxml-6.1.0/src/lxml/etree_new.c	2026-05-11 17:14:34
+@@ -1324,6 +1324,20 @@
+     #endif
+     
+ #include "libxml/HTMLparser.h"
++#ifdef _WIN32
++/* htmlDefaultSAXHandler is not exported from libxml2.dll in 2.14+.
++   We build a local copy using xmlSAX2InitHtmlDefaultSAXHandler() instead. */
++static xmlSAXHandlerV1 __lxml_htmlDefaultSAXHandler_local;
++static int __lxml_htmlDefaultSAXHandler_ready = 0;
++static xmlSAXHandlerV1 * __lxml_get_htmlDefaultSAXHandler(void) {
++    if (!__lxml_htmlDefaultSAXHandler_ready) {
++        xmlSAX2InitHtmlDefaultSAXHandler(
++            (xmlSAXHandlerPtr)&__lxml_htmlDefaultSAXHandler_local);
++        __lxml_htmlDefaultSAXHandler_ready = 1;
++    }
++    return &__lxml_htmlDefaultSAXHandler_local;
++}
++#endif
+ #include "libxml/xinclude.h"
+ #include "libxslt/xslt.h"
+ #include "libxslt/xsltconfig.h"
+@@ -138895,7 +138907,7 @@
+  *                 sax = <xmlparser.xmlSAXHandler*> tree.xmlMalloc(sizeof(xmlparser.xmlSAXHandler))
+  *                 if sax is NULL:
+ */
+-    __pyx_t_2 = (((xmlSAXHandlerV1 *)__pyx_v_sax) == (&htmlDefaultSAXHandler));
++    __pyx_t_2 = (((xmlSAXHandlerV1 *)__pyx_v_sax) == __lxml_get_htmlDefaultSAXHandler());
+     if (__pyx_t_2) {
+ 
+       /* "src/lxml/parser.pxi":963
+@@ -138942,7 +138954,7 @@
+  *                                  sizeof(htmlparser.htmlDefaultSAXHandler))
+  *                 c_ctxt.sax = sax
+ */
+-      (void)(memcpy(__pyx_v_sax, (&htmlDefaultSAXHandler), (sizeof(htmlDefaultSAXHandler))));
++      (void)(memcpy(__pyx_v_sax, __lxml_get_htmlDefaultSAXHandler(), sizeof(xmlSAXHandlerV1)));
+ 
+       /* "src/lxml/parser.pxi":968
+  *                 cstring_h.memcpy(sax, &htmlparser.htmlDefaultSAXHandler,
