@@ -22,7 +22,7 @@ requirements:
     - pkg-config  # [win]
   host:
     - python
-    - cython >=3.0.11
+    - cython >=3.2.4
     - libxml2 {{ libxml2 }}
     - libxslt {{ libxslt }}
     - pip
