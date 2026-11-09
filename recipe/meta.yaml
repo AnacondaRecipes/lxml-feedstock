@@ -1,5 +1,5 @@
 {% set name = "lxml" %}
-{% set version = "6.1.1" %}
+{% set version = "6.1.2" %}
 
 package:
   name: {{ name }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/l/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: ba96ae44888e0185281e937633a743ea90d5a196c6000f82565ebb0580012d40
+  sha256: 1055241852f2b02068af4a625a5d32c087db193c12251928af2562ecd2239f18
   patches:                            # [win]
     - fix_htmlDefaultSAXHandler.patch # [win]
 
@@ -40,6 +40,9 @@ test:
     - lxml
     - lxml.etree
     - lxml.objectify
+    - lxml.builder
+    - lxml.ElementInclude
+    - lxml.doctestcompare
     - lxml.includes
     - lxml.html
     - lxml.isoschematron
@@ -47,6 +50,12 @@ test:
     - pip
   commands:
     - pip check
+    - python -c "import lxml, lxml.etree; print(lxml.__version__, lxml.etree.LIBXML_VERSION, lxml.etree.LIBXSLT_VERSION)"
+    - python -c "from lxml import etree; print(etree.tostring(etree.fromstring(b'<a><b>1</b></a>')))"
+    # Upstream's test suite is not installed (setup.py packages only lxml, lxml.includes,
+    # lxml.html, lxml.isoschematron), so `pytest -vv` cannot run it from the built package;
+    # the check below exercises the libxml2 parse and libxslt transform bindings instead.
+    - python -c "from lxml import etree; x=etree.XML('<a><b>7</b></a>'); s=etree.XML('<xsl:stylesheet version=\'1.0\' xmlns:xsl=\'http://www.w3.org/1999/XSL/Transform\'><xsl:template match=\'/\'><o><xsl:value-of select=\'//b\'/></o></xsl:template></xsl:stylesheet>'); print(etree.tostring(x.xslt(s)))"
 
 about:
   home: https://lxml.de
