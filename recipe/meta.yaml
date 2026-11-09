@@ -54,7 +54,6 @@ test:
     - python -c "from lxml import etree; print(etree.tostring(etree.fromstring(b'<a><b>1</b></a>')))"
     # Upstream's test suite is not installed (setup.py packages only lxml, lxml.includes,
     # lxml.html, lxml.isoschematron), so `pytest -vv` cannot run it from the built package;
-    # the check below exercises the libxml2 parse and libxslt transform bindings instead.
 
 about:
   home: https://lxml.de
