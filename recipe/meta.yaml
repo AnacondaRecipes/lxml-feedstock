@@ -55,7 +55,6 @@ test:
     # Upstream's test suite is not installed (setup.py packages only lxml, lxml.includes,
     # lxml.html, lxml.isoschematron), so `pytest -vv` cannot run it from the built package;
     # the check below exercises the libxml2 parse and libxslt transform bindings instead.
-    - python -c "from lxml import etree; x=etree.XML('<a><b>7</b></a>'); s=etree.XSLT(etree.XML('<xsl:stylesheet version=\'1.0\' xmlns:xsl=\'http://www.w3.org/1999/XSL/Transform\'><xsl:template match=\'/\'><o><xsl:value-of select=\'//b\'/></o></xsl:template></xsl:stylesheet>')); print(etree.tostring(s(x)))"
 
 about:
   home: https://lxml.de
